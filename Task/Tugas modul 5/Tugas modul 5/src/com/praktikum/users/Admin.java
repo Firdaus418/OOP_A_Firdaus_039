@@ -1,12 +1,14 @@
+// File: com/praktikum/users/Admin.java
 package com.praktikum.users;
 
+import com.praktikum.actions.AdminActions;
 import com.praktikum.data.Item;
 import com.praktikum.app.LoginSystem;
 
 import java.util.Iterator;
 import java.util.Scanner;
 
-public class Admin extends User {
+public class Admin extends User implements AdminActions {
     private String username;
     private String password;
 
@@ -39,8 +41,8 @@ public class Admin extends User {
             }
 
             switch (pilihan) {
-                case 1 -> manageItems(scanner);
-                case 2 -> manageUsers(scanner);
+                case 1 -> manageItems(); // Sesuai interface
+                case 2 -> manageUsers(); // Sesuai interface
                 case 3 -> {
                     return;
                 }
@@ -49,7 +51,10 @@ public class Admin extends User {
         }
     }
 
-    private void manageItems(Scanner scanner) {
+    // Override method dari interface
+    @Override
+    public void manageItems() {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\n[Kelola Barang]");
             System.out.println("1. Lihat Semua Laporan");
@@ -100,7 +105,10 @@ public class Admin extends User {
         }
     }
 
-    private void manageUsers(Scanner scanner) {
+    // Override method dari interface
+    @Override
+    public void manageUsers() {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\n[Kelola Pengguna]");
             System.out.println("1. Tambah Mahasiswa");

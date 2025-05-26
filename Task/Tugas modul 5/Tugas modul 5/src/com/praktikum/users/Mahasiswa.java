@@ -1,11 +1,13 @@
+// File: com/praktikum/users/Mahasiswa.java
 package com.praktikum.users;
 
+import com.praktikum.actions.MahasiswaActions;
 import com.praktikum.data.Item;
 import com.praktikum.app.LoginSystem;
 
 import java.util.Scanner;
 
-public class Mahasiswa extends User {
+public class Mahasiswa extends User implements MahasiswaActions {
     private String nim;
 
     public Mahasiswa(String name, String nim) {
@@ -37,17 +39,18 @@ public class Mahasiswa extends User {
             }
 
             switch (pilihan) {
-                case 1 -> reportItem(scanner);
+                case 1 -> reportItem(); // Sesuai dengan interface (tanpa parameter)
                 case 2 -> viewReportedItems();
-                case 3 -> {
-                    return;
-                }
+                case 3 -> { return; }
                 default -> System.out.println("Pilihan tidak valid.");
             }
         }
     }
 
-    private void reportItem(Scanner scanner) {
+    // Override dari interface MahasiswaActions
+    @Override
+    public void reportItem() {
+        Scanner scanner = new Scanner(System.in);
         System.out.print("Nama Barang: ");
         String name = scanner.nextLine();
         System.out.print("Deskripsi: ");
@@ -60,7 +63,9 @@ public class Mahasiswa extends User {
         System.out.println("Barang berhasil dilaporkan.");
     }
 
-    private void viewReportedItems() {
+    // Override dari interface MahasiswaActions
+    @Override
+    public void viewReportedItems() {
         if (LoginSystem.reportedItems.isEmpty()) {
             System.out.println("Belum ada laporan barang.");
             return;
