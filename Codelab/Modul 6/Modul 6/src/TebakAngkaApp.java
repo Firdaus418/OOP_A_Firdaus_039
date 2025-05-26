@@ -4,6 +4,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.geometry.Pos;
+
 
 import java.util.Random;
 
@@ -20,15 +22,24 @@ public class TebakAngkaApp extends Application {
     public void start(Stage primaryStage) {
         // UI Elements
         TextField inputField = new TextField();
-        Button guessButton = new Button("Coba Tebak!");
-        Label feedbackLabel = new Label("Masukkan angka dari 1 sampai 100.");
+        inputField.setPromptText("Masukkan Angka Disini");
+        inputField.setStyle("-fx-prompt-text-fill: gray;");
+        Label instructionLabel = new Label("\uD83C\uDFAF Tebak Angka 1 - 100.");
+        instructionLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: blue; -fx-font-weight: bold;");
+        Label feedbackLabel = new Label("Masukkan Tebakanmu!");
+        Button guessButton = new Button("\uD83C\uDFB2 Coba Tebak!");
+        guessButton.setStyle("-fx-background-color: Green; -fx-text-fill: white;");
+
         Label attemptLabel = new Label("Jumlah percobaan: 0");
 
         // Layouts
         VBox root = new VBox(10);
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color: lightblue;");
         root.setPadding(new Insets(15));
-        HBox inputBox = new HBox(10, new Label("Tebakan Anda:"), inputField);
-        root.getChildren().addAll(inputBox, guessButton, feedbackLabel, attemptLabel);
+        HBox inputBox = new HBox(10, inputField, guessButton);
+        inputBox.setAlignment(Pos.CENTER);
+        root.getChildren().addAll(instructionLabel, feedbackLabel, inputBox, attemptLabel);
 
         // Game logic initialization
         generateRandomNumber();
@@ -37,10 +48,11 @@ public class TebakAngkaApp extends Application {
         guessButton.setOnAction(e -> {
             if (guessButton.getText().equals("Main Lagi")) {
                 generateRandomNumber();
-                feedbackLabel.setText("Masukkan angka dari 1 sampai 100.");
+                feedbackLabel.setText("Masukkan Tebakanmu!");
                 attemptCount = 0;
                 attemptLabel.setText("Jumlah percobaan: 0");
-                guessButton.setText("Coba Tebak!");
+                guessButton.setText("\uD83C\uDFB2 Coba Tebak!");
+                guessButton.setStyle("-fx-background-color: Green; -fx-text-fill: white;");
                 inputField.clear();
                 return;
             }
@@ -52,12 +64,17 @@ public class TebakAngkaApp extends Application {
                 attemptLabel.setText("Jumlah percobaan: " + attemptCount);
 
                 if (guess < targetNumber) {
-                    feedbackLabel.setText("Terlalu kecil!");
+                    feedbackLabel.setText("↓ Terlalu kecil!");
+                    feedbackLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: orange;");
                 } else if (guess > targetNumber) {
-                    feedbackLabel.setText("Terlalu besar!");
+                    feedbackLabel.setText("↑ Terlalu besar!");
+                    feedbackLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: orange;");
                 } else {
-                    feedbackLabel.setText("Tebakan benar!");
-                    guessButton.setText("Main Lagi");
+                    feedbackLabel.setText("✓ Tebakan benar!");
+                    feedbackLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: green;");
+                    guessButton.setText("↻ Main Lagi");
+                    guessButton.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
+
                 }
 
             } catch (NumberFormatException ex) {
